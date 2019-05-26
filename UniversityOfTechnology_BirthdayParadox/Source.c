@@ -2,10 +2,11 @@
 #define foreach(idxtype, idxpvar, col, colsiz ) idxtype* idxpvar; for( idxpvar=col ; idxpvar < (col + (colsiz)) ; idxpvar++)
 #define arraylen( ary ) ( sizeof(ary)/sizeof(ary[0]) )
 #define DNI 364
-#define PROBY 1
+#define PROBY 10
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 
 int generujLosowaLiczbe(int min, int max)
 {
@@ -29,37 +30,39 @@ int main()
 {
 	size_t n = 1;
 	int sukces = 0;
+	int daty[100];
+	int check = PROBY / 2;
 
-	while (sukces <= (PROBY / 2)) 
+	while (sukces <= check) 
 	{
 		for (int i = 0; i < PROBY; i++) 
 		{	
-			int* ludzie = malloc(n * sizeof(int));
 			for (int i = 0; i < n; i++)
-				ludzie[i] = losujDzien();
+				daty[i] = losujDzien();
 
 			int kontrolna = 0;
 
-			foreach (int, date, ludzie, arraylen(ludzie)) 
+			foreach (int, date, daty, arraylen(daty)) 
 			{
-				int size = arraylen(ludzie);
-				printf("%d", size);
+				int size = arraylen(daty);
 				for (int r = 0; r < size; r++)
 				{
-					if (&ludzie[r] == *date)
+					if (daty[r] == -858993460)
+						goto kontrola;
+					if (daty[r] == *date)
 					{
 						kontrolna++;
 					}
 				}
 			}
 
+		kontrola:
 			if (kontrolna >= 2)
 			{
 				sukces++;
 			}
-			ludzie = NULL;
-		}
 
+		}
 		sukces = 0;
 		n++;
 	}
