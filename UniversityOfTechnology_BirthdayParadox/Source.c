@@ -17,27 +17,24 @@ int losujDzien(void)
 	return generujLosowaLiczbe(1, DNI + 1);
 }
 
-int* przydzielDaty(int size, int **arr)
+int* przydzielDaty(int size)
 {
-	free(*arr);
-
-	*arr = malloc(size * sizeof(int));
+	int *arr = malloc(size * sizeof(int));
 	for (int i = 0; i < size; i++)
-		(*arr)[i] = losujDzien();
+		arr[i] = losujDzien();
 }
 
 int main()
 {
 	size_t n = 1;
 	int sukces = 0;
-	int* ludzie;
-	ludzie = NULL;
+	int* ludzie = NULL;
 
 	while (sukces <= (PROBY / 2)) 
 	{
 		for (int i = 0; i < PROBY; i++) 
 		{	
-			ludzie = przydzielDaty(n, &ludzie);
+			*ludzie = (int*)przydzielDaty(n);
 			int kontrolna = 0;
 
 			foreach (int, date, ludzie, arraylen(ludzie)) 
@@ -46,7 +43,7 @@ int main()
 				printf("%d", size);
 				for (int r = 0; r < size; r++)
 				{
-					if (ludzie[r] == *date)
+					if (&ludzie[r] == *date)
 					{
 						kontrolna++;
 					}
