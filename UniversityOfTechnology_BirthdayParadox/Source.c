@@ -2,7 +2,7 @@
 #define foreach(idxtype, idxpvar, col, colsiz ) idxtype* idxpvar; for( idxpvar=col ; idxpvar < (col + (colsiz)) ; idxpvar++)
 #define arraylen( ary ) ( sizeof(ary)/sizeof(ary[0]) )
 #define DNI 364
-#define PROBY 5
+#define PROBY 1
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,36 +17,36 @@ int losujDzien(void)
 	return generujLosowaLiczbe(1, DNI + 1);
 }
 
-void przydzielDaty(int size, int **arr)
+int* przydzielDaty(int size, int **arr)
 {
 	free(*arr);
 
-	*arr = malloc(*arr ,size * sizeof(int));
-	printf("%d \n", sizeof(arr));
+	*arr = malloc(size * sizeof(int));
 	for (int i = 0; i < size; i++)
 		(*arr)[i] = losujDzien();
 }
 
 int main()
 {
-	int n = 1;
+	size_t n = 1;
 	int sukces = 0;
-	int* ludzie = (int*)malloc(100 * sizeof(int));
+	int* ludzie;
+	ludzie = NULL;
 
-	
 	while (sukces <= (PROBY / 2)) 
 	{
 		for (int i = 0; i < PROBY; i++) 
 		{	
-			przydzielDaty(n, &ludzie);
+			ludzie = przydzielDaty(n, &ludzie);
 			int kontrolna = 0;
 
 			foreach (int, date, ludzie, arraylen(ludzie)) 
 			{
 				int size = arraylen(ludzie);
+				printf("%d", size);
 				for (int r = 0; r < size; r++)
 				{
-					if (&ludzie[r] == date)
+					if (ludzie[r] == *date)
 					{
 						kontrolna++;
 					}
