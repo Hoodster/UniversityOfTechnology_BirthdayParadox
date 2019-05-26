@@ -19,12 +19,12 @@ int losujDzien(void)
 
 void przydzielDaty(int size, int **arr)
 {
-	*arr = malloc(size * sizeof(int));
+	free(*arr);
+
+	*arr = malloc(*arr ,size * sizeof(int));
 	printf("%d \n", sizeof(arr));
 	for (int i = 0; i < size; i++)
-	{
-		arr[i] = losujDzien();
-	}
+		(*arr)[i] = losujDzien();
 }
 
 int main()
