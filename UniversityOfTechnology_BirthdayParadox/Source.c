@@ -22,19 +22,22 @@ int* przydzielDaty(int size)
 	int *arr = malloc(size * sizeof(int));
 	for (int i = 0; i < size; i++)
 		arr[i] = losujDzien();
+	return *arr;
 }
 
 int main()
 {
 	size_t n = 1;
 	int sukces = 0;
-	int* ludzie = NULL;
 
 	while (sukces <= (PROBY / 2)) 
 	{
 		for (int i = 0; i < PROBY; i++) 
 		{	
-			*ludzie = (int*)przydzielDaty(n);
+			int* ludzie = malloc(n * sizeof(int));
+			for (int i = 0; i < n; i++)
+				ludzie[i] = losujDzien();
+
 			int kontrolna = 0;
 
 			foreach (int, date, ludzie, arraylen(ludzie)) 
