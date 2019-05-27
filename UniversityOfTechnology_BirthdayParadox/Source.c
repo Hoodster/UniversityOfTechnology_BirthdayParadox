@@ -1,24 +1,22 @@
 #define _CRT_SECURE_NO_WARNINGS
-#define foreach(typ, wartosc, tablica, rozmiar ) \
-typ* wartosc; \
-for( wartosc=tablica ; wartosc < (tablica + (rozmiar)) ; wartosc++)
-#define dlugosctablicy( ary ) ( sizeof(ary)/sizeof(ary[0]) )
-#define DNI 365
-#define PROBY 100000
-#define PUSTA_WARTOSC -858993460
+#define DNI 365 // iloœæ dni w roku
+#define PROBY 30000 // iloœæ prób jak¹ ma podj¹æ program dla ka¿dego n
+#define PUSTA_WARTOSC -858993460 //wartoœæ jak¹ przyjmuje pusty indeks tablicy
 
 #include <stdio.h>
 #include <stdlib.h>
 
-int generujLosowaLiczbe(int min, int max)
+int generujLosowaLiczbe(int min, int max) //funkcja losowania liczby z podanego zakresu
 {
-	return (rand() % (max - min + 1)) + min;
+	return (rand() % (max - min + 1)) + min; //znak % ustawia maksymalny zakres rand(), natomiast `+ min` podnosi doln¹ granicê od 0
 }
 
-int losujDzien(void)
+int losujDzien(void) // funkcja korzystaj¹ca z funkcji losowania liczb z okreœlonym zakresem reprezentuj¹cym zakres dni roku
 {
-	return generujLosowaLiczbe(1, DNI);
+	return generujLosowaLiczbe(1, DNI); //od 1 stycznia (1. dzieñ roku) do 31 grudnia (365. dzieñ roku)
 }
+
+
 
 int main()
 {
@@ -27,39 +25,48 @@ int main()
 	int daty[100]; //tablica dat urodzin
 	int check = PROBY / 2; //próg 50% prób
 
-	while (sukces/2 <= check) 
+	while (sukces <= check) //wykonuj dopóki iloœæ udanych próbek nie jest wiêksza od 50% co jest wiêkszego prawdopodobieñstwa
 	{
 		sukces = 0;
 
-		for (int i = 0; i <= PROBY; i++)  // instrukcja dla próby
+		for (int i = 0; i < PROBY; i++)  // instrukcja dla próby
 		{	
-			for (int i = 0; i <= n; i++) //tworzenie dat dla n osób
-				daty[i] = losujDzien();
+			for (int t = 0; t < n; t++) //tworzenie dat dla n osób
+				daty[t] = losujDzien();
 
-			foreach (int, data, daty, dlugosctablicy(daty)) // instrukcja dla ka¿dej daty
+			int kontrolna = 0; //liczba kontrolna pomagaj¹ca stwierdziæ czy zaistnia³a zbie¿noœæ dat podczas ca³ej iteracji
+
+			for(int e = 0; e < n; e++) // instrukcja dla ka¿dej daty
 			{
-				int kontrolna = 0;
+				pomin:
+				if (daty[e] == PUSTA_WARTOSC) //sprawdzenie czy tablica jest ju¿ pusta i mo¿na pomin¹æ wykonywanie dalszych instrukcji
+					goto kontrola; //przejdŸ do nastêpnej daty (linia 56)
 
-				for (int r = 0; r < dlugosctablicy(daty); r++) //przechodzenie po kolei po elementach
+				for (int r = 0; r < n; r++) //przechodzenie po kolei po elementach
 				{
-					if (daty[r] == PUSTA_WARTOSC)
-						goto kontrola; //przejdŸ do nastêpnej daty (linia 56)
 
-					if (daty[r] == *data)
+					if (daty[r] == PUSTA_WARTOSC) //sprawdzenie czy tablica jest ju¿ pusta i mo¿na pomin¹æ wykonywanie dalszych instrukcji
+						goto pomin; //przejdŸ do nastêpnej iteracji (linia 41)
+
+					if (daty[r] == daty[e] && &daty[e] != &daty[r]) //sprawdzenie czy dwie pozycje w tablicy maj¹ t¹ sam¹ wartoœæ i czy nie s¹ tymi samymi elementami tablicy (sprawdzenie adresów w pamiêci)
+					{
+						printf("kontrolna: %d  |  index: %d   |   sukces: %d   |   n: %d  : \n daty[r-1]: %d \n daty[r]: %d \n daty[r+1]: %d \n data: %d \n daty[r] address: %d \n data address: %d \n  POWTORZENIE: %d \n ------------------------------------------------------ \n //////////////////////////////////////////////////////  \n ------------------------------------------------------ \n", 
+							kontrolna, r, sukces/2, n, daty[r-1], daty[r], daty[r+1], daty[e], &daty[r], &daty[e], i); // poszczególny stan sk³adników algorytmu kiedy zachodzi pozytywny warunek
 						kontrolna++;
-				}
+					}					
+				}			
+			} 
 
-				kontrola:
-				if (kontrolna > 1)
-				{				
-					sukces++;
-				}
+		kontrola:
+			if (kontrolna > 0) //sprawdzenie czy istnieje chocia¿ jedna para
+			{
+				++sukces;
 			}
 		
 		} //koniec instrukcji dla konkretnego n
-		printf("Dla %d osob wynik wynosi  %d / %d prob \n", n+1, sukces/2, PROBY);
+		printf("Dla %d osob wynik wynosi  %d / %d prob \n", n, sukces, PROBY); // dla ka¿dych skoñczonych obliczeñ dla danego n wypisz iloœæ udanych próbek na ogó³
 		n++;
 	}
-	printf("Paradoks zachodzi dla minimalnie %d osob.       %d", n, sukces/2);
+	printf("Paradoks zachodzi dla minimalnie %d osob. \n \n", n-1, sukces/2); // n-1 poniewa¿ pêtla while na koniec wykonywania dodaje n+1
 	return 0;
 }
