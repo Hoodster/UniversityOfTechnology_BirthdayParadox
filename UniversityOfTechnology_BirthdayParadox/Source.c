@@ -22,12 +22,12 @@ int losujDzien(void)
 
 int main()
 {
-	int n = 1;
-	int sukces = 0;
-	int daty[100];
-	int check = PROBY / 2;
+	int n = 1; //iloœæ osób
+	int sukces = 0; //udane próbki
+	int daty[100]; //tablica dat urodzin
+	int check = PROBY / 2; //próg 50% prób
 
-	while (sukces <= check) 
+	while (sukces/2 <= check) 
 	{
 		sukces = 0;
 
@@ -57,9 +57,9 @@ int main()
 			}
 		
 		} //koniec instrukcji dla konkretnego n
-		printf("Dla %d osob wynik wynosi  %d / %d prob \n", n+1, sukces, PROBY);
+		printf("Dla %d osob wynik wynosi  %d / %d prob \n", n+1, sukces/2, PROBY);
 		n++;
 	}
-	printf("Paradoks zachodzi dla minimalnie %d osob.       %d", n, sukces);
+	printf("Paradoks zachodzi dla minimalnie %d osob.       %d", n, sukces/2);
 	return 0;
 }
