@@ -50,6 +50,7 @@ int main()
 
 					if (daty[r] == daty[e] && &daty[e] != &daty[r]) //sprawdzenie czy dwie pozycje w tablicy maj¹ t¹ sam¹ wartoœæ i czy nie s¹ tymi samymi elementami tablicy (sprawdzenie adresów w pamiêci)
 					{
+						//DLA SZYBSZEGO UZYSKANIA OGÓLNYCH WYNIKÓW SKOMENTOWAÆ PRINTF
 						printf("kontrolna: %d  |  index: %d   |   sukces: %d   |   n: %d  : \n daty[r-1]: %d \n daty[r]: %d \n daty[r+1]: %d \n data: %d \n daty[r] address: %d \n data address: %d \n  POWTORZENIE: %d \n ------------------------------------------------------ \n //////////////////////////////////////////////////////  \n ------------------------------------------------------ \n", 
 							kontrolna, r, sukces/2, n, daty[r-1], daty[r], daty[r+1], daty[e], &daty[r], &daty[e], i); // poszczególny stan sk³adników algorytmu kiedy zachodzi pozytywny warunek
 						kontrolna++;
