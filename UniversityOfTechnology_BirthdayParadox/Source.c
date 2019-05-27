@@ -61,10 +61,10 @@ int main()
 				++sukces;
 			}
 		
-		} //koniec instrukcji dla konkretnego n
+		} //koniec instrukcji dla konkretnej próbki
 		printf("Dla %d osob wynik wynosi  %d / %d prob \n", n, sukces, PROBY); // dla ka¿dych skoñczonych obliczeñ dla danego n wypisz iloœæ udanych próbek na ogó³
 		n++;
-	}
+	} //koniec instrukcji dla konkretnego n
 	printf("Paradoks zachodzi dla minimalnie %d osob. \n \n", n-1, sukces/2); // n-1 poniewa¿ pêtla while na koniec wykonywania dodaje n+1
 	return 0;
 }
