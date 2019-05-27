@@ -1,12 +1,14 @@
 #define _CRT_SECURE_NO_WARNINGS
-#define foreach(idxtype, idxpvar, col, colsiz ) idxtype* idxpvar; for( idxpvar=col ; idxpvar < (col + (colsiz)) ; idxpvar++)
-#define arraylen( ary ) ( sizeof(ary)/sizeof(ary[0]) )
+#define foreach(typ, wartosc, tablica, rozmiar ) \
+typ* wartosc; \
+for( wartosc=tablica ; wartosc < (tablica + (rozmiar)) ; wartosc++)
+#define dlugosctablicy( ary ) ( sizeof(ary)/sizeof(ary[0]) )
 #define DNI 365
-#define PROBY 30000
+#define PROBY 100000
+#define PUSTA_WARTOSC -858993460
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <limits.h>
 
 int generujLosowaLiczbe(int min, int max)
 {
@@ -18,14 +20,6 @@ int losujDzien(void)
 	return generujLosowaLiczbe(1, DNI);
 }
 
-int* przydzielDaty(int size)
-{
-	int *arr = malloc(size * sizeof(int));
-	for (int i = 0; i < size; i++)
-		arr[i] = losujDzien();
-	return *arr;
-}
-
 int main()
 {
 	int n = 1;
@@ -35,43 +29,37 @@ int main()
 
 	while (sukces <= check) 
 	{
-		for (int i = 0; i < PROBY; i++) 
+		sukces = 0;
+
+		for (int i = 0; i <= PROBY; i++)  // instrukcja dla próby
 		{	
-			for (int i = 0; i < n; i++)
+			for (int i = 0; i <= n; i++) //tworzenie dat dla n osób
 				daty[i] = losujDzien();
 
-			int kontrolna = 0;
-
-			foreach (int, date, daty, arraylen(daty)) 
+			foreach (int, data, daty, dlugosctablicy(daty)) // instrukcja dla ka¿dej daty
 			{
-				int size = arraylen(daty);
-				for (int r = 0; r < size; r++)
-				{
-					if (daty[r] < 1 && daty[r] != -858993460 || daty[r] > 365 && daty[r] != -858993460)
-					{
-						printf("chuj kurwa");
-					}
-					if (daty[r] == -858993460 || *date == -858993460)
-						goto kontrola;
+				int kontrolna = 0;
 
-					if (daty[r] == *date)
+				for (int r = 0; r < dlugosctablicy(daty); r++) //przechodzenie po kolei po elementach
+				{
+					if (daty[r] == PUSTA_WARTOSC)
+						goto kontrola; //przejdŸ do nastêpnej daty (linia 56)
+
+					if (daty[r] == *data)
 						kontrolna++;
 				}
-			}
 
-		kontrola:
-			if (kontrolna >= 2)
-			{
- 				sukces++;
+				kontrola:
+				if (kontrolna > 1)
+				{				
+					sukces++;
+				}
 			}
-
-		}
-		if (n == 23) {
-			printf("%d", sukces);
-		}
-		sukces = 0;
+		
+		} //koniec instrukcji dla konkretnego n
+		printf("Dla %d osob wynik wynosi  %d / %d prob \n", n+1, sukces, PROBY);
 		n++;
 	}
-	printf("Paradoks zachodzi dla minimalnie %d osób", n + 1);
+	printf("Paradoks zachodzi dla minimalnie %d osob.       %d", n, sukces);
 	return 0;
 }
