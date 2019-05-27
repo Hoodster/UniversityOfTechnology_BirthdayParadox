@@ -16,8 +16,6 @@ int losujDzien(void) // funkcja korzystaj¹ca z funkcji losowania liczb z okreœlo
 	return generujLosowaLiczbe(1, DNI); //od 1 stycznia (1. dzieñ roku) do 31 grudnia (365. dzieñ roku)
 }
 
-
-
 int main()
 {
 	int n = 1; //iloœæ osób
@@ -25,7 +23,7 @@ int main()
 	int daty[100]; //tablica dat urodzin
 	int check = PROBY / 2; //próg 50% prób
 
-	while (sukces <= check) //wykonuj dopóki iloœæ udanych próbek nie jest wiêksza od 50% co jest wiêkszego prawdopodobieñstwa
+	while (sukces <= check) //wykonuj dopóki iloœæ udanych próbek nie jest wiêksza od 50% co zachodzi dla wiêkszego prawdopodobieñstwa
 	{
 		sukces = 0;
 
@@ -44,7 +42,6 @@ int main()
 
 				for (int r = 0; r < n; r++) //przechodzenie po kolei po elementach
 				{
-
 					if (daty[r] == PUSTA_WARTOSC) //sprawdzenie czy tablica jest ju¿ pusta i mo¿na pomin¹æ wykonywanie dalszych instrukcji
 						goto pomin; //przejdŸ do nastêpnej iteracji (linia 41)
 
