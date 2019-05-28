@@ -1,4 +1,4 @@
-# University Of Technology #BirthdayParadox
+# Silesian University Of Technology #BirthdayParadox
 Program resolving birthday paradox. Project created as exercise for Silesian University of Technology in Gliwice.
 
 ## NOTES
